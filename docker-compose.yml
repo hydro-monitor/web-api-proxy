@@ -1,0 +1,42 @@
+version: '2'  
+  
+services:  
+  app1: # Service 1  
+    image: nginx 
+    ports:  
+      - 81:80  
+    container_name: 'app1'  # Name of the container
+    volumes:
+      - '/Users/abarbetta/Documents/haproxy-hello/app-1:/usr/share/nginx/html/'  
+  
+  app2: # Service 2  
+    image: nginx
+    ports:  
+      - 82:80  
+    container_name: 'app2'  # Name of the container
+    volumes:
+      - '/Users/abarbetta/Documents/haproxy-hello/app-2:/usr/share/nginx/html/'  
+  
+  app3: # Service 3   
+    image: nginx # Node and Express  
+    ports:  
+      - 83:80  
+    container_name: 'app3'  # Name of the container  
+    volumes:
+      - '/Users/abarbetta/Documents/haproxy-hello/app-3:/usr/share/nginx/html/'
+  
+  haproxy:  # HA Proxy service  
+    image: haproxy:2.0.16  # Official HAProxy image  
+    ports:  
+      - 84:80  
+    container_name: 'haproxy' # Name of the container  
+    volumes:  # HAProxy configuration volume mount   
+      - '/Users/abarbetta/Documents/haproxy-hello/haproxy:/usr/local/etc/haproxy/haproxy.cfg:ro'
+
+  nginx:  # nginx LB
+    image: nginx
+    ports:
+      - 80:80
+    container_name: 'nginx' # Name of the container
+    volumes:  # nginx configuration volume mount
+      - '/Users/abarbetta/Documents/haproxy-hello/nginx:/etc/nginx/conf.d/'
